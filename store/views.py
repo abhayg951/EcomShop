@@ -18,7 +18,7 @@ def about(request):
 def checkout(request):
     return render(request, 'checkout.html')
 
-def single_item(request, id, slug):
+def single_item(request, id):
     single_item = models.Product.objects.filter(id=id).first()
     return render(request, 'shop-single.html')
 

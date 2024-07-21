@@ -1,8 +1,15 @@
 from django.db import models
 import uuid
 import PIL.Image
+from django.urls import reverse
 
 # Create your models here.
+
+CHOICE = {
+    ('male', 'MALE'),
+    ('female', 'FEMALE'),
+    ('children', 'CHILDREN'),
+}
 
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid1, primary_key=True, editable=False)
@@ -22,6 +29,10 @@ class Product(models.Model):
     slug = models.SlugField(max_length = 250, null = True, blank = True)
     stock = models.IntegerField(null=False)
     created_at = models.DateTimeField(auto_now_add=True, auto_created=True)
+    is_featured = models.BooleanField(default=False, null=True)
+    gender = models.CharField(choices=CHOICE, max_length=10, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
 
     class Meta:
         ordering = ('-created_at', )
@@ -33,10 +44,14 @@ class Product(models.Model):
         super().save(*args, **kwargs)
         img = PIL.Image.open(self.image)
         # width, height = img.size
-        target_width = 253
-        target_height = 180
+        target_width = 480
+        target_height = 340
         img = img.resize((int(target_width), int(target_height)), PIL.Image.LANCZOS)
         img.save(self.image.path, quality=100)
         img.close()
         self.image.close()
+
+    # def get_absolute_url(self):
+    #     return reverse("index", kwargs={"pk": self.pk})
+    
 

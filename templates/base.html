@@ -65,21 +65,23 @@
             <li class="has-children active">
               <a href="/">Home</a>
               <ul class="dropdown">
-                <li><a href="#">Menu One</a></li>
-                <li><a href="#">Menu Two</a></li>
-                <li><a href="#">Menu Three</a></li>
+                <li><a href="#">Featured</a></li>
+                <li><a href="#">Men</a></li>
+                <li><a href="#">Women</a></li>
                 <li class="has-children">
-                  <a href="#">Sub Menu</a>
+                  <a href="#">Categories</a>
                   <ul class="dropdown">
-                    <li><a href="#">Menu One</a></li>
+                    {% for object in categories %}
+                    <li><a href="#">{{ object.name }}</a></li>
+                    {% endfor %}
                     <li><a href="#">Menu Two</a></li>
                     <li><a href="#">Menu Three</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
-            <li><a href="about">About</a></li>
-            <li><a href="shop">Shop</a></li>
+            <li><a href="{% url "store:about" %}">About</a></li>
+            <li><a href="store">Shop</a></li>
             <li><a href="#">Catalogue</a></li>
             <li><a href="#">New Arrivals</a></li>
             <li><a href="contact">Contact</a></li>
@@ -155,9 +157,7 @@
       <div class="row pt-5 mt-5 text-center">
         <div class="col-md-12">
           <p>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script data-cfasync="false" src="{% static "/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js" %}"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" class="text-primary">Colorlib</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+         EcomShop
           </p>
         </div>
         

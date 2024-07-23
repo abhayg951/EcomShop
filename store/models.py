@@ -2,13 +2,14 @@ from django.db import models
 import uuid
 import PIL.Image
 from django.urls import reverse
+from django.utils.html import format_html
 
 # Create your models here.
 
-CHOICE = {
-    ('male', 'MALE'),
-    ('female', 'FEMALE'),
-    ('children', 'CHILDREN'),
+COLLECTION_CHOICE = {
+    ('Men', 'Men'),
+    ('Women', 'Women'),
+    ('Children', 'Children'),
 }
 
 class Category(models.Model):
@@ -16,9 +17,13 @@ class Category(models.Model):
     name = models.CharField(null=False, max_length=100, blank=False)
     slug = models.SlugField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_created=True)
+    image = models.ImageField(upload_to="categories", null=True, verbose_name="Category Image")
 
     def __str__(self) -> str:
         return f"{self.slug}"
+
+    def get_category_image(self):
+        return format_html("<img src='%s' alt='Category Image' width='50' height='50'/>" % (self.image.url))
 
 class Product(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
@@ -29,13 +34,13 @@ class Product(models.Model):
     slug = models.SlugField(max_length = 250, null = True, blank = True)
     stock = models.IntegerField(null=False)
     created_at = models.DateTimeField(auto_now_add=True, auto_created=True)
-    is_featured = models.BooleanField(default=False, null=True)
-    gender = models.CharField(choices=CHOICE, max_length=10, null=True)
+    is_featured = models.BooleanField(default=False)
+    collection = models.CharField(choices=COLLECTION_CHOICE, max_length=10, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
-
 
     class Meta:
         ordering = ('-created_at', )
+        verbose_name_plural = "Products"
     
     def __str__(self)  -> str:
         return f"{self.name}"
@@ -51,7 +56,18 @@ class Product(models.Model):
         img.close()
         self.image.close()
 
-    # def get_absolute_url(self):
-    #     return reverse("index", kwargs={"pk": self.pk})
     
+    def product_image(self) -> str:
+        # return html_safe("<img src='%s', width='50' height='50'/>" % (self.image.url))
+        return format_html(f'<img src="{self.image.url}" width="50" height="50">')
+
+class ProductImage(models.Model):
+    images = models.ImageField(upload_to='products')
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, related_name='images', null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Product Image'
+        verbose_name_plural = 'Product Images'
+
 

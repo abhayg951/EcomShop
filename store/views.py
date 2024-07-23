@@ -14,6 +14,8 @@ def index(request):
     })
 
 def shop(request):
+
+    # Get query parameter from URL and filter products based on slug
     query_param = request.GET.get('q')
     if query_param:
         category = models.Category.objects.filter(slug = query_param).values('id')
@@ -22,7 +24,18 @@ def shop(request):
         return render(request,'shop.html', {
         'items': items
         })
+    
     items = models.Product.objects.all()
+    return render(request,'shop.html', {
+        'items': items,
+        "categories": get_categories()
+    })
+
+def filter_shop(request, category):
+    """filtering the products based on category"""
+    category = models.Category.objects.filter(slug = category).values('id')
+    cate_id = category.get()['id']
+    items = models.Product.objects.filter(category=cate_id).all()
     return render(request,'shop.html', {
         'items': items,
         "categories": get_categories()

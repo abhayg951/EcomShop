@@ -28,9 +28,9 @@
           <div class="row align-items-center">
 
             <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-              <form action="" class="site-block-top-search">
+              <form action="{% url "store:store" %}" class="site-block-top-search">
                 <span class="icon icon-search2"></span>
-                <input type="text" class="form-control border-0" placeholder="Search">
+                <input name = "q" type="text" class="form-control border-0" placeholder="Search">
               </form>
             </div>
 
@@ -67,21 +67,19 @@
               <ul class="dropdown">
                 <li><a href="#">Featured</a></li>
                 <li><a href="#">Men</a></li>
-                <li><a href="#">Women</a></li>
+                <li><a name = "collection" href="#">Women</a></li>
                 <li class="has-children">
                   <a href="#">Categories</a>
                   <ul class="dropdown">
                     {% for object in categories %}
-                    <li><a href="#">{{ object.name }}</a></li>
+                    <li><a href="{% url "store:filter_shop" object.slug %}">{{ object.name }}</a></li>
                     {% endfor %}
-                    <li><a href="#">Menu Two</a></li>
-                    <li><a href="#">Menu Three</a></li>
                   </ul>
                 </li>
               </ul>
             </li>
             <li><a href="{% url "store:about" %}">About</a></li>
-            <li><a href="store">Shop</a></li>
+            <li><a href="{% url "store:store" %}">Shop</a></li>
             <li><a href="#">Catalogue</a></li>
             <li><a href="#">New Arrivals</a></li>
             <li><a href="contact">Contact</a></li>

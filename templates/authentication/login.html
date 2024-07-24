@@ -5,18 +5,18 @@
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Login</strong></div>
+          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Login</strong></div>
         </div>
       </div>
     </div>  
 
     <div class="site-section">
       <div class="container">
-        <div class="row justify-content-center"> <!-- Center align the form -->
-          <div class="col-md-7">
-            <div class="card">
-              <h5 class="card-header">Login</h5>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card custom-card">
               <div class="card-body">
+                <h5 class="card-title text-center mb-4">Login</h5>
                 <form method="post" class="needs-validation" novalidate>
                   {% csrf_token %}
                   <div class="form-group">
@@ -35,6 +35,9 @@
                   </div>
                   <button type="submit" class="btn btn-primary btn-block">Login</button>
                 </form>
+                <div class="text-center mt-3">
+                  <p>New Here? <a href="{% url 'auth:signup' %}">Sign Up</a></p>
+                </div>
               </div>
             </div>
           </div>
@@ -45,7 +48,21 @@
 {% endblock content %}
 
 <style>
-  .card {
-    margin-top: 20px; /* Adjust as needed */
+  .custom-card {
+    margin-top: 20px;
+    border: none; /* Remove default border */
+    border-radius: 15px; /* Add rounded corners */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  }
+  .custom-card .card-body {
+    padding: 2rem;
+  }
+  .custom-card .btn-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+  }
+  .custom-card .btn-primary:hover {
+    background-color: #0069d9; /* Darken on hover */
+    border-color: #0062cc;
   }
 </style>

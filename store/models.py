@@ -6,11 +6,11 @@ from django.utils.html import format_html
 
 # Create your models here.
 
-COLLECTION_CHOICE = {
-    ('Men', 'Men'),
-    ('Women', 'Women'),
+COLLECTION_CHOICE = (
     ('Children', 'Children'),
-}
+    ('Women', 'Women'),
+    ('Men', 'Men'),
+)
 
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid1, primary_key=True, editable=False)

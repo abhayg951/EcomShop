@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "store"
+    "store",
+    "authentication"
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,5 @@ JAZZMIN_SETTINGS = {
     "site_brand": "EcomShop",
     # "site_logo": "assets/img/Frame 6.png"
 }
+
+AUTH_USER_MODEL = "authentication.User"

@@ -17,7 +17,7 @@
             <div class="card custom-card">
               <div class="card-body">
                 <h5 class="card-title text-center mb-4">Login</h5>
-                <form method="post" class="needs-validation" novalidate>
+                <form method="post" class="needs-validation">
                   {% csrf_token %}
                   <div class="form-group">
                     <label for="email" class="text-black">Email <span class="text-danger">*</span></label>
@@ -34,6 +34,11 @@
                     </div>
                   </div>
                   <button type="submit" class="btn btn-primary btn-block">Login</button>
+                  {% if messages and not messages.first %}
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+              {% endif %}
                 </form>
                 <div class="text-center mt-3">
                   <p>New Here? <a href="{% url 'auth:signup' %}">Sign Up</a></p>

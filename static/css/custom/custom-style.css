@@ -1,0 +1,25 @@
+
+  .dropdown-menu {
+    padding: 0;
+    margin: 0;
+    min-width: 160px; /* Adjust if needed */
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px; /* Adjust padding if necessary */
+    white-space: nowrap; /* Prevents text from wrapping */
+  }
+
+  .dropdown-item i {
+    margin-right: 8px; /* Space between icon and text */
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .dropdown-menu {
+      min-width: 100%; /* Ensures the dropdown menu uses full width on smaller screens */
+    }
+  }
+

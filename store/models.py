@@ -3,6 +3,7 @@ import uuid
 import PIL.Image
 from django.urls import reverse
 from django.utils.html import format_html
+import base64
 
 # Create your models here.
 
@@ -28,6 +29,7 @@ class Category(models.Model):
 class Product(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(null=False, max_length=255, blank=False)
+    brand = models.CharField(null=False, max_length=255, blank=False, default="No Brand")
     description = models.TextField(null=False)
     image = models.ImageField(upload_to='products', null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
@@ -60,6 +62,15 @@ class Product(models.Model):
     def product_image(self) -> str:
         # return html_safe("<img src='%s', width='50' height='50'/>" % (self.image.url))
         return format_html(f'<img src="{self.image.url}" width="50" height="50">')
+    
+    def encoded_id(self) -> str:
+        encoded_bytes = base64.b64encode(self.id.bytes)
+        return encoded_bytes.decode('utf-8')
+
+    @staticmethod
+    def decode_id(encoded_id: str) -> uuid.UUID:
+        decoded_bytes = base64.b64decode(encoded_id.encode('utf-8'))
+        return uuid.UUID(bytes=decoded_bytes)
 
 class ProductImage(models.Model):
     images = models.ImageField(upload_to='products')
@@ -70,4 +81,6 @@ class ProductImage(models.Model):
         verbose_name = 'Product Image'
         verbose_name_plural = 'Product Images'
 
+class Cart(models.Model):
+    pass
 

@@ -5,7 +5,11 @@
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+          {% if breadcrumb_title %}
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ breadcrumb_title }}</strong></div>
+          {% else %}
+            <div class="col-md-12 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -22,7 +26,7 @@
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Latest
+                      Gender
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
                       <a class="dropdown-item" href="#">Men</a>
@@ -50,11 +54,10 @@
               <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
                 <div class="block-4 text-center border">
                   <figure class="block-4-image">
-                    <a href="{{ i.slug }}/{{ i.id }}"><img src="{{ i.image.url }}" alt="Image placeholder" class="img-fluid"></a>
-                    <!-- <a href="shop/{{ i.slug }}/{{ i.id }}"><img src="{% static "images/cloth_1.jpg" %}" alt="Image placeholder" class="img-fluid"></a> -->
+                    <a href="{{ i.encoded_id }}/{{ i.slug }}"><img src="{{ i.image.url }}" alt="Image placeholder" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="{{ i.slug }}/{{ i.id }}">{{ i.name }}</a></h3>
+                    <h3><a href="{{ i.encoded_id }}/{{ i.slug }}">{{ i.name }}</a></h3>
                     <p class="mb-0" style="text-overflow: ellipsis;">{{ i.description | truncatechars:23 }}</p>
                     <p class="text-primary font-weight-bold">₹{{ i.price }}</p>
                   </div>
@@ -84,7 +87,7 @@
                   <ul>
                     <li><a href="#">&lt;</a></li>
                     <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
+                    <li><a href="{% url 'store:store' %}">2</a></li>
                     <li><a href="#">3</a></li>
                     <li><a href="#">4</a></li>
                     <li><a href="#">5</a></li>

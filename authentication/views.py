@@ -4,7 +4,8 @@ from .models import User
 from django.contrib.auth import authenticate, password_validation
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.http import JsonResponse
 # Create your views here.
 
 def signup(request):
@@ -68,7 +69,6 @@ def signup(request):
 
 
 def sign_in(request):
-    print("function sign_in called")
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -76,10 +76,16 @@ def sign_in(request):
         user = authenticate(username=email, password=password)
 
         if user:
-            # login the user
             login(request, user)
-            return redirect('store:home')
+            return JsonResponse({'success': True})
         else:
-            messages.error(request, 'Invalid email or password')
-            return redirect('store:home')
+            return JsonResponse({'success': False, 'error': 'Invalid email or password'})
     return render(request, 'authentication/login.html')
+
+def logout_user(request):
+    try:
+        logout(request)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        messages.error(request, f"An error occurred: {str(e)}")
+    return redirect("store:home")

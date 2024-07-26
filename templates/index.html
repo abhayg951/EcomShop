@@ -91,6 +91,7 @@
         </div>
       </div>
     </div>
+    
 <!-- Featured Section -->
     <div class="site-section block-3 site-blocks-2 bg-light">
       <div class="container">
@@ -109,8 +110,8 @@
                     <img src="{{ item.image.url }}" alt="Image placeholder" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="store/{{ item.slug }}/{{ item.id }}">{{ item.name }}</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
+                    <h3><a href="store/{{ item.slug }}/{{ item.id }}">{{ item.brand }}</a></h3>
+                    <p class="mb-0">{{ item.name }}</p>
                     <p class="text-primary font-weight-bold">$50</p>
                   </div>
                 </div>

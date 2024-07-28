@@ -17,13 +17,12 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="{{ product.image.url }}" alt="Image" class="img-fluid">
+          <img id="product-image" src="{{ product.image.url }}" alt="Image" class="img-fluid">
         </div>
         <div class="col-md-6">
           <h2 class="text-black">{{ product.name }}</h2>
-          <p>{{ product.description }}</p>
-          {% comment %} <p class="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p> {% endcomment %}
-          <p><strong class="text-primary h4">₹{{ product.price }}</strong></p>
+          <p class="mb-4">{{ product.description }}</p>
+          <p>₹<strong class="text-primary h4" id="product-price">{{ product.price }}</strong></p>
           <div class="mb-1 d-flex">
             <label for="option-sm" class="d-flex mr-3 mb-3">
               <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
@@ -43,14 +42,21 @@
             <div class="input-group-prepend">
               <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
             </div>
-            <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+            <input type="text" id="item-quantity" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
             <div class="input-group-append">
               <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
             </div>
           </div>
 
           </div>
-          <p><a href="cart" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+          <input type="hidden" id="product-id" value="{{ product.id }}">
+          <input type="hidden" id="product-name" value="{{ product.name }}">
+          {% if user.is_authenticated %}
+            <p><a href="#" id="add-to-cart-btn" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+          {% else %}
+            <button type="button" class="btn btn-warning">Add To Cart</button>
+            <a href="#" class="buy-now btn btn-sm btn-primary">Login</a>
+          {% endif %}
 
         </div>
       </div>
@@ -130,7 +136,7 @@
                 <img src="{{ item.image.url }}" alt="Image placeholder" class="img-fluid">
               </figure>
               <div class="block-4-text p-4">
-                <h3><a href="store/{{ item.slug }}/{{ item.id }}">{{ item.name }}</a></h3>
+                <h3><a href="/store/{{ item.encoded_id }}/{{ item.slug }}">{{ item.name }}</a></h3>
                 <p class="mb-0">Finding perfect t-shirt</p>
                 <p class="text-primary font-weight-bold">$50</p>
               </div>
@@ -149,42 +155,7 @@
               </div>
             </div>
           </div>
-          <div class="item">
-            <div class="block-4 text-center">
-              <figure class="block-4-image">
-                <img src="{% static "images/cloth_2.jpg" %}" alt="Image placeholder" class="img-fluid">
-              </figure>
-              <div class="block-4-text p-4">
-                <h3><a href="#">Polo Shirt</a></h3>
-                <p class="mb-0">Finding perfect products</p>
-                <p class="text-primary font-weight-bold">$50</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="block-4 text-center">
-              <figure class="block-4-image">
-                <img src="{% static "images/cloth_3.jpg" %}" alt="Image placeholder" class="img-fluid">
-              </figure>
-              <div class="block-4-text p-4">
-                <h3><a href="#">T-Shirt Mockup</a></h3>
-                <p class="mb-0">Finding perfect products</p>
-                <p class="text-primary font-weight-bold">$50</p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="block-4 text-center">
-              <figure class="block-4-image">
-                <img src="{% static "images/shoe_1.jpg" %}" alt="Image placeholder" class="img-fluid">
-              </figure>
-              <div class="block-4-text p-4">
-                <h3><a href="#">Corater</a></h3>
-                <p class="mb-0">Finding perfect products</p>
-                <p class="text-primary font-weight-bold">$50</p>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>

@@ -64,12 +64,14 @@ class Product(models.Model):
         return format_html(f'<img src="{self.image.url}" width="50" height="50">')
     
     def encoded_id(self) -> str:
-        encoded_bytes = base64.b64encode(self.id.bytes)
-        return encoded_bytes.decode('utf-8')
+        encoded_bytes = base64.urlsafe_b64encode(self.id.bytes)
+        return encoded_bytes.decode('utf-8').rstrip('=')
 
     @staticmethod
     def decode_id(encoded_id: str) -> uuid.UUID:
-        decoded_bytes = base64.b64decode(encoded_id.encode('utf-8'))
+        # Add padding if necessary
+        padded_encoded_id = encoded_id + '=' * (-len(encoded_id) % 4)
+        decoded_bytes = base64.urlsafe_b64decode(padded_encoded_id)
         return uuid.UUID(bytes=decoded_bytes)
 
 class ProductImage(models.Model):

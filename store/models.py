@@ -5,13 +5,28 @@ from django.urls import reverse
 from django.utils.html import format_html
 import base64
 
+from django.contrib.auth import get_user_model
+
 # Create your models here.
+
+User = get_user_model()
 
 COLLECTION_CHOICE = (
     ('Children', 'Children'),
     ('Women', 'Women'),
     ('Men', 'Men'),
 )
+
+class Brands(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Brand Name")
+    slug = models.SlugField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Brand"
+        verbose_name_plural = "Brands"
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 class Category(models.Model):
     id = models.UUIDField(default=uuid.uuid1, primary_key=True, editable=False)
@@ -20,8 +35,12 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, auto_created=True)
     image = models.ImageField(upload_to="categories", null=True, verbose_name="Category Image")
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
     def __str__(self) -> str:
-        return f"{self.slug}"
+        return f"{self.name}"
 
     def get_category_image(self):
         return format_html("<img src='%s' alt='Category Image' width='50' height='50'/>" % (self.image.url))
@@ -29,7 +48,7 @@ class Category(models.Model):
 class Product(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(null=False, max_length=255, blank=False)
-    brand = models.CharField(null=False, max_length=255, blank=False, default="No Brand")
+    brand = models.ForeignKey(Brands, verbose_name ="Brand Name", on_delete=models.CASCADE)
     description = models.TextField(null=False)
     image = models.ImageField(upload_to='products', null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)

@@ -2,7 +2,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 import string, random
 from django.utils.text import slugify
-from .models import Product, Category
+from .models import Product, Category, Brands
 
 def random_string_generator(size = 10, chars = string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -30,12 +30,20 @@ def unique_slug_generator(instance, new_slug = None):
     
     return slug
 
+# creating slug for products
 @receiver(pre_save, sender=Product)
-def pre_save_receiver(sender, instance, *args, **kwargs):
+def pre_save_receiver1(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
+#Creating slug for categories
 @receiver(pre_save, sender=Category)
-def pre_save_receiver(sender, instance, *args, **kwargs):
+def pre_save_receiver2(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+#Creating slug for Brands
+@receiver(pre_save, sender=Brands)
+def pre_save_receiver3(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)

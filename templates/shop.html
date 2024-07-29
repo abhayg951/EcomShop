@@ -57,8 +57,8 @@
                     <a href="{{ i.encoded_id }}/{{ i.slug }}"><img src="{{ i.image.url }}" alt="Image placeholder" class="img-fluid"></a>
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="{{ i.encoded_id }}/{{ i.slug }}">{{ i.name }}</a></h3>
-                    <p class="mb-0" style="text-overflow: ellipsis;">{{ i.description | truncatechars:23 }}</p>
+                    <h3><a href="{{ i.encoded_id }}/{{ i.slug }}">{{ i.brand }}</a></h3>
+                    <p class="mb-0" style="text-overflow: ellipsis;">{{ i.name | truncatechars:23 }}</p>
                     <p class="text-primary font-weight-bold">₹{{ i.price }}</p>
                   </div>
                 </div>

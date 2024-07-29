@@ -77,10 +77,12 @@ def featured_products(request):
 def single_item(request, id, slug):
     decoded_id = models.Product.decode_id(id)
     single_item = models.Product.objects.filter(id=decoded_id, slug=slug).first()
+    item_images = models.ProductImage.objects.filter(product=single_item).all()
     return render(request, 'shop-single.html', {
         "product": single_item,
         "categories": get_categories(),
-        "featured_products":get_featured_products()
+        "featured_products":get_featured_products(),
+        "item_images": item_images
         })
 
 # cart related functions

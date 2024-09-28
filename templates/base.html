@@ -62,18 +62,39 @@
                         </a>
                       </div>
                     {% else %}
+                    {% if is_login_page%}
+                      <a href="#" data-toggle="modal" disabled>
+                      <span class="icon icon-person"></span>
+                    </a>
+                    {% else %}
                       <a href="#" data-toggle="modal" data-target="#loginModal">
                         <span class="icon icon-person"></span>
                       </a>
+                      {% endif %}
                     {% endif %}
                   </li>                  
                   <li><a href="#"><span class="icon icon-heart-o" title="Wishlist"></span></a></li>
+                  {% if user.is_authenticated %}
+                  <li>
+                    <a href="{% url "store:cart" %}" class="site-cart">
+                      <span class="icon icon-shopping_cart" title="Cart"></span>
+                      {% if request.session.cart_data_obj %}
+                        <span class="count">{{ request.session.cart_count }}</span>
+                      {% else %}
+                      <span class="count">{{ cart_data | length }}</span>
+                      {% endif %}
+                    </a>
+                  </li> 
+                  {% else %}
                   <li>
                     <a href="{% url "store:cart" %}" class="site-cart">
                       <span class="icon icon-shopping_cart" title="Cart"></span>
                       <span class="count">{{ request.session.cart_data_obj | length }}</span>
                     </a>
                   </li> 
+                  {% endif %}
+                  
+
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
                 </ul>
               </div> 

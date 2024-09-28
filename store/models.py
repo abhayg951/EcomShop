@@ -50,7 +50,7 @@ class Product(models.Model):
     name = models.CharField(null=False, max_length=255, blank=False)
     brand = models.ForeignKey(Brands, verbose_name ="Brand Name", on_delete=models.CASCADE)
     description = models.TextField(null=False)
-    image = models.ImageField(upload_to='products', null=True, blank=True)
+    image = models.ImageField(upload_to='products', null=True, blank=True, verbose_name="Product Thumbnail")
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False)
     slug = models.SlugField(max_length = 250, null = True, blank = True)
     stock = models.IntegerField(null=False)
@@ -103,5 +103,24 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Product Images'
 
 class Cart(models.Model):
-    pass
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f"{self.user}"
+    
+    def total_price(self):
+        return sum(item.total_price() for item in self.cartitem_set.all())
+
+    
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self) -> str:
+        return f"{self.cart} - {self.product}"
+    
+    def total_price(self):
+        return self.quantity * (self.product.price if self.product.price else 0)

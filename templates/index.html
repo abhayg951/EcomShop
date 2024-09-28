@@ -2,22 +2,54 @@
 {% load static %}
 {% block content %}
   <div class="site-wrap">
-    <div class="site-blocks-cover" style="background-image: url({% static "images/hero_1.jpg" %});" data-aos="fade">
-      <div class="container">
-        <div class="row align-items-start align-items-md-center justify-content-end">
-          <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
-            <h1 class="mb-2">Finding Your Perfect Shoes</h1>
-            <div class="intro-text text-center text-md-left">
-              <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at iaculis quam. Integer accumsan tincidunt fringilla. </p>
-              <p>
-                <a href="#" class="btn btn-sm btn-primary">Shop Now</a>
-              </p>
+    <div class="owl-carousel owl-theme">
+      <div class="site-blocks-cover" style="background-image: url({% static "images/hero_1.jpg" %});" data-aos="fade">
+        <div class="container">
+          <div class="row align-items-start align-items-md-center justify-content-end">
+            <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+              <h1 class="mb-2">Finding Your Perfect Shoes</h1>
+              <div class="intro-text text-center text-md-left">
+                <p class="mb-4">Discover a wide range of shoes that combine style, comfort, and quality. Find the perfect pair that fits your unique taste and lifestyle.</p>
+                <p>
+                  <a href="#" class="btn btn-sm btn-primary">Shop Now</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="site-blocks-cover" style="background-image: url({% static "images/Banner-1.png" %});" data-aos="fade">
+        <div class="container">
+          <div class="row align-items-start align-items-md-center justify-content-end">
+            <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+              <h1 class="mb-2">Elevate Your Wardrobe</h1>
+              <div class="intro-text text-center text-md-left">
+                <p class="mb-4">Upgrade your wardrobe with our latest collection of fashion-forward clothing. Perfect for any occasion, discover styles that make you stand out.</p>
+                <p>
+                  <a href="#" class="btn btn-sm btn-primary">Explore Collection</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="site-blocks-cover" style="background-image: url({% static "images/Banner.png" %});" data-aos="fade">
+        <div class="container">
+          <div class="row align-items-start align-items-md-center justify-content-end">
+            <div class="col-md-5 text-center text-md-left pt-5 pt-md-0">
+              <h1 class="mb-2">Step into the Spotlight</h1>
+              <div class="intro-text text-center text-md-left">
+                <p class="mb-4">Shine bright with our exclusive range of clothing. Whether for a casual day out or a glamorous evening, find pieces that highlight your style.</p>
+                <p>
+                  <a href="#" class="btn btn-sm btn-primary">Discover More</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+  
     <div class="site-section site-section-sm site-blocks-1">
       <div class="container">
         <div class="row">
@@ -55,8 +87,9 @@
     <div class="site-section site-blocks-2">
       <div class="container">
         <div class="row">
+
           <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="{% url 'store:product-collection' 'Women' %}">
               <figure class="image">
                 <img src="{% static "images/women.jpg" %}" alt="" class="img-fluid">
               </figure>
@@ -66,8 +99,9 @@
               </div>
             </a>
           </div>
+
           <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="{% url 'store:product-collection' 'Children' %}">
               <figure class="image">
                 <img src="{% static "images/children.jpg" %}" alt="" class="img-fluid">
               </figure>
@@ -78,7 +112,7 @@
             </a>
           </div>
           <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
-            <a class="block-2-item" href="#">
+            <a class="block-2-item" href="{% url 'store:product-collection' 'Men' %}">
               <figure class="image">
                 <img src="{% static "images/men.jpg" %}" alt="" class="img-fluid">
               </figure>
@@ -193,4 +227,19 @@
     </div>
   </div>
   {% endblock content %}
+  {% block extra_js %}
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      $(".owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 2000,
+        autoplayHoverPause: true,
+      });
+    });
+  </script>
+  {% endblock extra_js %}
 

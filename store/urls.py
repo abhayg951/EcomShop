@@ -14,12 +14,13 @@ urlpatterns = [
     path("store/featured", views.featured_products, name="featured_products"),
     path("store/<str:id>/<slug:slug>", views.single_item, name="single-item"),
     path("store/<str:category>", views.filter_shop_by_category, name="filter_shop"),
+    path("collection/<str:collection>", views.filter_by_collection, name="product-collection"),
 
     # contact us
     path("contact", views.contact, name="contact"),
     
     # cart 
-    path("cart", views.cart, name="cart"),
+    path("cart", views.cart_view, name="cart"),
     path("add-to-cart", views.add_to_cart, name="add-to-cart"),
     
     # checkout

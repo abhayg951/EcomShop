@@ -23,6 +23,7 @@ $("#add-to-cart-btn").on("click", function(){
         },
         success: function(response){
             this_val.html("Added to cart!");
+            console.log(response.total_cart_items)
             console.log("Added product to cart successfully!");
             $(".count").text(response.total_cart_items)
         }

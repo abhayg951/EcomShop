@@ -9,6 +9,8 @@ from django.http import JsonResponse
 # Create your views here.
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('store:home')
     if request.method == 'POST':
         # Getting the data from HTML form
         fname = request.POST.get('first_name')
@@ -69,6 +71,8 @@ def signup(request):
 
 
 def sign_in(request):
+    if request.user.is_authenticated:
+        return redirect('store:home')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -80,7 +84,9 @@ def sign_in(request):
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'error': 'Invalid email or password'})
-    return render(request, 'authentication/login.html')
+    return render(request, 'authentication/login.html', {
+        'is_login_page': True
+    })
 
 def logout_user(request):
     try:
@@ -88,4 +94,4 @@ def logout_user(request):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         messages.error(request, f"An error occurred: {str(e)}")
-    return redirect("store:home")
+    return redirect("auth:login")

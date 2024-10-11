@@ -28,9 +28,8 @@
                   </tr>
                 </thead>
                 <tbody>
-
+                  <!-- if user is logged in -->
                   {% if user.is_authenticated %}
-
                   {% for item in cart_data %}
                   <tr data-item-id="{{ item.product.id }}">
                     <td class="product-thumbnail">
@@ -56,6 +55,7 @@
                   </tr>
                   {% endfor %}
 
+                  <!-- if user is not logged in -->
                   {% else %}
 
                   {% for item_id, item in cart_data.items %}
@@ -64,7 +64,7 @@
                       <img src="{{ item.image }}" alt="Image" class="img-fluid">
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">{{ item.title }}</h2>
+                      <a href="{% url 'store:single-item' item.id item.slug %}"><h2 class="h5 text-black">{{ item.title }}</h2></a>
                     </td>
                     <td class="product-price">₹{{ item.price }}</td>
                     <td>
@@ -149,7 +149,7 @@
 
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick='window.location.href = "/checkout"'>Proceed To Checkout</button>
                   </div>
                 </div>
               </div>

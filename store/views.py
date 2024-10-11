@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
-
 # Create your views here.
 
 from .utils import get_categories, get_featured_products, get_brands, get_cart, get_cart_item_count
@@ -113,7 +112,7 @@ def add_to_cart(request):
     """this function adds the products to the carts"""
     product_id = request.GET['id']
     product = get_object_or_404(models.Product, id=product_id)
-
+    encoded_id = product.encoded_id()
     # if user is logged in,(cart will added to the database)
     if request.user.is_authenticated:
 
@@ -166,6 +165,8 @@ def add_to_cart(request):
         cart_product = {}
         product_id = request.GET['id']
         cart_product[str(product_id)] = {
+            'id': encoded_id,
+            'slug': request.GET['slug'],
             'title': request.GET['title'],
             'price': request.GET['price'],
             'quantity': int(request.GET['qty']),
@@ -186,7 +187,7 @@ def add_to_cart(request):
         else:
             request.session['cart_data_obj'] = cart_product
     
-        print("Cart data: ", request.session['cart_count'])
+        # print("Cart data: ", request.session['cart_count'])
         return JsonResponse({"data":request.session['cart_data_obj'], 'total_cart_items': len(request.session['cart_data_obj'])})
 
 def cart_view(request):
@@ -225,7 +226,38 @@ def about(request):
 
 @login_required
 def checkout(request):
-    return render(request, 'checkout.html')
+
+    # redirect back to cart when cart is empty
+
+
+    # print(request.session.items())
+
+    # for logged in user 
+    if request.user.is_authenticated:
+        cart, created = models.Cart.objects.get_or_create(user=request.user)
+        cart_item = models.CartItem.objects.filter(cart=cart)
+        total_price = sum(item.total_price() for item in cart_item)
+        context = {
+            'cart_data': cart_item,
+            'total_cart_items': cart_item.count(),
+            'total_price': total_price,
+            'categories': get_categories(),
+        }
+
+        print(context)
+        return render(request, 'checkout.html', context)
+    
+    if 'cart_data_obj' not in request.session:
+        request.session['cart_data_obj'] = {}
+        return redirect('store:cart')
+    elif request.session['cart_data_obj'] == {}:
+        return redirect('store:cart')
+
+    return render(request, 'checkout.html', {
+        'cart_data': request.session['cart_data_obj'],
+        'total_cart_items': len(request.session['cart_data_obj']),
+        'categories': get_categories(),
+    })
 
 
 def contact(request):

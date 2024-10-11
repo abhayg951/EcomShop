@@ -5,6 +5,7 @@ $("#add-to-cart-btn").on("click", function(){
     let product_id = $("#product-id").val();
     let product_price = $("#product-price").text();
     let title = $("#product-name").val();
+    let slug = $("#product-slug").val();
     let img = document.getElementById("product-image").src;
     let this_val = $(this);
 
@@ -15,7 +16,8 @@ $("#add-to-cart-btn").on("click", function(){
             "title": title,
             "qty": quantity,
             "price": product_price,
-            "img": img
+            "img": img,
+            "slug": slug
         },
         dataType: 'json',
         beforeSend: function() {
